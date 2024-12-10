@@ -1,0 +1,170 @@
+KobraBites/
+├── **kobrabites/**
+    ├── **android/**
+    │   ├── **app/**
+    │   │   └── **src/**
+    │   │       ├── **debug/**
+    │   │       │   └── AndroidManifest.xml
+    │   │       ├── **main/**
+    │   │       │   ├── **java/**
+    │   │       │   ├── **kotlin/**
+    │   │       │   ├── **res/**
+    │   │       │   └── AndroidManifest.xml
+    │   │       └── **profile/**
+    │   │           └── AndroidManifest.xml
+    │   ├── **gradle/wrapper/**
+    │   ├── .gitignore
+    │   ├── build.gradle
+    │   ├── gradle.properties
+    │   └── settings.gradle
+    │
+    ├── **ios/**
+    │   ├── **Flutter/**
+    │   │   ├── AppFrameworkInfo.plist
+    │   │   ├── Debug.xcconfig
+    │   │   └── Release.xcconfig
+    │   ├── **Runner/**
+    │   │   ├── **Assets.xcassets/**
+    │   │   ├── **Base.lproj/**
+    │   │   ├── AppDelegate.swift
+    │   │   ├── info.plist
+    │   │   └── Runner-Bridging-Header.h
+    │   ├── **Runner.xcodeproj/**
+    │   │   ├── **project.xcworkspace/**
+    │   │   ├── **scshareddata/**
+    │   │   └── project.pbxproj
+    │   ├── **Runner.xcworkspace/**
+    │   │   ├── **xcshareddata/**
+    │   │   └── contents.xcworkspacedata
+    │   ├── **RunnerTests/**
+    │   │   └── RunnerTests.swift
+    │   └── .gitignore
+    │
+    ├── **lib/**
+    │   └── main.dart
+    │
+    ├── **linux/**
+    │   ├── **flutter/**
+    │   ├── .gitignore
+    │   ├── CMakeLists.txt
+    │   ├── main.cc
+    │   ├── my_application.cc
+    │   └── my_application.h
+    │
+    ├── **macos/**
+    │   ├── **Flutter/**
+    │   │   ├── **ephemeral/**
+    │   │   ├── Flutter-Debug.xcconfig
+    │   │   ├── Flutter-Release.xcconfig
+    │   │   └── GeneratedPluginRegistrant.swift
+    │   ├── **Runner/**
+    │   │   ├── **Assets.xcassets/**
+    │   │   ├── **Base.lproj/**
+    │   │   ├── **Configs/**
+    │   │   ├── AppDelegate.swift
+    │   │   ├── DebugProfile.entitlements
+    │   │   ├── info.plist
+    │   │   ├── MainFlutterWindow.swift
+    │   │   └── Release.entitlements
+    │   ├── **Runner.xcodeproj/**
+    │   │   ├── **project.xcworkspace/**
+    │   │   ├── **scshareddata/**
+    │   │   └── project.pbxproj
+    │   ├── **Runner.xcworkspace/**
+    │   │   ├── **xcshareddata/**
+    │   │   └── contents.xcworkspacedata
+    │   ├── **RunnerTests/**
+    │   │   └── RunnerTests.swift
+    │   └── .gitignore
+    │
+    ├── **test/**
+    │   └── widget_test.dart
+    │
+    ├── **web/**
+    │   ├── **icons/**
+    │   ├── favicon.png
+    │   ├── index.html
+    │   └── manifest.json
+    │
+    ├── **windows/**
+    │   ├── **flutter/**
+    │   │   ├── CMakeLists.txt
+    │   │   ├── generated_plugin_registrant.cc
+    │   │   ├── generated_plugin_registrant.h
+    │   │   └── generated_plugins.cmake
+    │   ├── **runner/**
+    │   │   ├── **resources/**
+    │   │   │   └── app_icon.ico
+    │   │   ├── CMakeLists.txt
+    │   │   ├── flutter_window.cpp
+    │   │   ├── flutter_window.h
+    │   │   ├── main.cpp
+    │   │   ├── resource.h
+    │   │   ├── runner.exe.manifest
+    │   │   ├── Runner.rc
+    │   │   ├── utils.cpp
+    │   │   ├── utils.h
+    │   │   ├── win32_window.cpp
+    │   │   └── win32_window.h
+    │   ├── .gitignore
+    │   └── CMakeLists.txt
+    │
+    ├── .gitignore
+    ├── .metadata
+    ├── analysis_options.yaml
+    ├── kobrabites.iml
+    ├── pubspec.lock
+    ├── pubspec.yaml
+    └── README.md
+├── **kobrabitesscore/**
+    ├── **api/**
+    │   ├── **migrations/**
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── router.py
+    │   ├── serializers.py
+    │   ├── tests.py
+    │   └── views.py
+    │
+    ├── **client/**
+    │   ├── **migrations/**
+    │   ├── __init__.py
+    │   ├── access.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── filters.py
+    │   ├── models.py
+    │   ├── serializers.py
+    │   ├── tests.py
+    │   └── views.py
+    │
+    ├── **kobrabitescore/**
+    │   ├── __pycache__/
+    │   ├── __init__.py
+    │   ├── asgi.py
+    │   ├── auth_extension.py
+    │   ├── settings.py
+    │   ├── urls.py
+    │   └── wsgi.py
+    │
+    ├── **user/**
+    │   ├── **migrations/**
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── emails.py
+    │   ├── forms.py
+    │   ├── managers.py
+    │   ├── models.py
+    │   ├── serializers.py
+    │   ├── tests.py
+    │   ├── utils.py
+    │   └── views.py
+    │
+    ├── **venv/**
+    ├── .env
+    ├── .gitignore
+    ├── manage.py
+    ├── requirements.txt
