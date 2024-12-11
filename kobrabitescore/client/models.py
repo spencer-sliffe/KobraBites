@@ -2,7 +2,11 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from mealplanning.models import WeekPlan, GroceryItem, Meal, Recipe, Allergen
+from user.models import CustomUser
+
 User = get_user_model()
+
 
 class SoftDeleteModel(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
@@ -28,16 +32,15 @@ class PersonFields(models.Model):
 
 
 class Client(PersonFields, SoftDeleteModel):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="clients")
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='client_profile')
     email_opt_in = models.BooleanField(default=False)
     phone_opt_in = models.BooleanField(default=False)
-    client_since = models.DateField(null=True, blank=True)
-    profile_image = models.CharField(max_length=128, null=True, blank=True)
-
+    client_since = models.DateField(auto_now_add=True)
+    profile_image = models.ImageField(upload_to='client_profiles/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    last_active = models.DateTimeField(null=True, blank=True)
+    budget = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    last_active = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Client<{self.first_name} {self.last_name} ({self.id})>"
@@ -48,3 +51,49 @@ class Client(PersonFields, SoftDeleteModel):
             return full_name.strip()
         except AttributeError:
             return None
+
+
+class ClientMealSchedule(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE, related_name='meal_schedule')
+    plans = models.ManyToManyField(WeekPlan, related_name='client_schedules', blank=True)
+
+    def __str__(self):
+        return f"Meal Schedule for {self.client.user.email}"
+
+
+class ClientGroceryList(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='grocery_lists')
+    name = models.CharField(max_length=255, default="My Grocery List")
+    items = models.ManyToManyField(GroceryItem, related_name='grocery_lists', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} for {self.client.user.email}"
+
+
+class ClientRecipe(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='saved_recipes')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='saved_by_clients')
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.client.user.email} saved {self.recipe.name}"
+
+
+class ClientMeal(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='saved_meals')
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name='saved_by_clients')
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.client.user.email} saved {self.meal.name}"
+
+
+class ClientDiet(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE, related_name='diet_restrictions')
+    calories_per_day = models.PositiveIntegerField(null=True, blank=True)
+    allergies = models.ManyToManyField(Allergen, related_name='clients', blank=True)
+
+    def __str__(self):
+        return f"Diet for {self.client.user.email}"
