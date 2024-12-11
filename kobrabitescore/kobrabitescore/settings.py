@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'api',
     'user',
     'client',
+    'mealplanning',
+    'social'
 ]
 
 MIDDLEWARE = [
