@@ -25,9 +25,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          source ./kobrabitesscore/venv/bin/activate
+          cd kobrabitesscore
+          source venv/bin/activate
           pip install --upgrade pip
-          pip install -r ./kobrabitesscore/requirements.txt
+          pip install -r requirements.txt
+
 
       - name: Collect static files
         run: |
