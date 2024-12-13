@@ -24,8 +24,8 @@ CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:57593
 CORS_ALLOWED_ORIGINS.append('http://localhost:64473')
 CSRF_TRUSTED_ORIGINS.append('http://localhost:64473')
 
-CORS_ALLOWED_ORIGINS.append('https://kobrabites-backend-czh3g7fye3e5e2eg.canadacentral-01.azurewebsites.net')
-CSRF_TRUSTED_ORIGINS.append('https://kobrabites-backend-czh3g7fye3e5e2eg.canadacentral-01.azurewebsites.net')
+CORS_ALLOWED_ORIGINS.append('https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net')
+CSRF_TRUSTED_ORIGINS.append('https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net')
 
 
 CORS_ALLOW_CREDENTIALS = True
