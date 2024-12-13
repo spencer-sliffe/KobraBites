@@ -18,14 +18,14 @@ DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:57593').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:57593').split(',')
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ORIGINS', 'https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net').split(',')
 
 CORS_ALLOWED_ORIGINS.append('http://localhost:64473')
 CSRF_TRUSTED_ORIGINS.append('http://localhost:64473')
 
-CORS_ALLOWED_ORIGINS.append('https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net')
-CSRF_TRUSTED_ORIGINS.append('https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net')
+CORS_ALLOWED_ORIGINS.append('http://localhost:49825')
+CSRF_TRUSTED_ORIGINS.append('http://localhost:49825')
 
 
 CORS_ALLOW_CREDENTIALS = True
