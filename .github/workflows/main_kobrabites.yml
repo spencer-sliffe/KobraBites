@@ -1,8 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
-name: Build and deploy Node.js app to Azure Web App - kobrabites
+name: Build and deploy Flutter web app to Azure Web App - kobrabites-frontend
 
 on:
   push:
@@ -17,19 +13,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          node-version: '18.x'
+          flutter-version: '3.10.0'
 
-      - name: npm install, build, and test
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build for web
+        run: flutter build web
+
+      - name: Prepare for deployment
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          mkdir wwwroot
+          cp -r build/web/* wwwroot/
+          cp server.js wwwroot/
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip release.zip ./* -r -x "venv/*"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -40,11 +42,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    environment: Production
     permissions:
-      id-token: write 
+      id-token: write
 
     steps:
       - name: Download artifact from build job
@@ -62,10 +62,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_955209A1E32947A69B78E4E123D2382B }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0F1261F942B24A59BF2D275F9EC83F20 }}
 
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'kobrabites'
           slot-name: 'Production'
-      
+          package: ./kobrabites
