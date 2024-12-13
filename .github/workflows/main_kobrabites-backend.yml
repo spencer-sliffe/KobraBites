@@ -18,21 +18,29 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install dependencies and prepare static files
+      - name: Create and start virtual environment (for build tasks)
         run: |
-          cd kobrabitescore
+          cd ./kobrabitescore
           python -m venv venv
+          source venv/bin/activate
+
+      - name: Install dependencies locally
+        run: |
+          cd ./kobrabitescore
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-          # Optionally run tests here if desired: python manage.py test --noinput
+
+      - name: Collect static files
+        run: |
+          cd ./kobrabitescore
+          source venv/bin/activate
           python manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
         run: |
-          # We're now in the root directory (KobraBites).
-          # Zip the entire 'kobrabitescore' directory which includes manage.py, requirements.txt, etc.
-          zip release.zip kobrabitescore -r
+          # Zip the entire kobrabitescore directory (excluding the local venv)
+          zip release.zip ./kobrabitescore -r -x "./kobrabitescore/venv/*"
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -68,5 +76,4 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kobrabites-backend'
-          slot-name: 'Production'
           package: './kobrabitescore'
