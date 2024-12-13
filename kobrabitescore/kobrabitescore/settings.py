@@ -16,7 +16,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-)&c5=b6m!0b61i-)_#s26pv*mx
 
 DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'kobrabites-backend-czh3g7fye3e5e2eg.canadacentral-01.azurewebsites.net').split(',')
 
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ORIGINS', 'https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://kobrabites-bghrdzd3gedvfgbd.canadacentral-01.azurewebsites.net').split(',')
