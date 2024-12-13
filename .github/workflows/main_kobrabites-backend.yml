@@ -26,6 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd ./kobrabitescore
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
@@ -33,18 +34,20 @@ jobs:
       # Optional: Collect static files
       - name: Collect static files
         run: |
+          cd ./kobrabitescore
           source venv/bin/activate
           python manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
         run: |
+          cd ./kobrabitescore
           zip release.zip ./* -r -x "venv/*"
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: release.zip
+          path: ./kobrabitescore/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,7 +63,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip ./kobrabitescore/release.zip
 
       - name: Login to Azure
         uses: azure/login@v2
