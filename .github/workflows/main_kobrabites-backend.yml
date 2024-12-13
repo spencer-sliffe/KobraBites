@@ -18,29 +18,22 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment
+      - name: Install dependencies and prepare static files
         run: |
-          cd ./kobrabitescore
+          cd kobrabitescore
           python -m venv venv
-          source venv/bin/activate
-
-      - name: Install dependencies
-        run: |
-          cd ./kobrabitescore
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Collect static files
-        run: |
-          cd ./kobrabitescore
-          source venv/bin/activate
+          # Optionally run tests here if desired: python manage.py test --noinput
           python manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
         run: |
-          zip release.zip ./kobrabitescore -r
-          
+          # We're now in the root directory (KobraBites).
+          # Zip the entire 'kobrabitescore' directory which includes manage.py, requirements.txt, etc.
+          zip release.zip kobrabitescore -r
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
@@ -50,9 +43,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment: 
-          name: 'Production'
-          url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write
 
@@ -65,19 +58,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip ./release.zip
 
-      - name: Set up Python version
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Create and start virtual environment
-        run: |
-          cd ./kobrabitescore
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -85,10 +65,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F0D3D34996B540539BF39BB1759CB5C5 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1BC6532CCD27492589A64D394ADFA738 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kobrabites-backend'
-          slot-name: 'Production'
-          package: ./kobrabitescore
+          package: './kobrabitescore'
