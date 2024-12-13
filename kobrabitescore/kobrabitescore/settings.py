@@ -14,14 +14,19 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-)&c5=b6m!0b61i-)_#s26pv*mxy&xsct3)0bmh509h(vby)q5k')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:57593').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:57593').split(',')
+
 CORS_ALLOWED_ORIGINS.append('http://localhost:64473')
 CSRF_TRUSTED_ORIGINS.append('http://localhost:64473')
+
+CORS_ALLOWED_ORIGINS.append('https://kobrabites-backend-czh3g7fye3e5e2eg.canadacentral-01.azurewebsites.net')
+CSRF_TRUSTED_ORIGINS.append('https://kobrabites-backend-czh3g7fye3e5e2eg.canadacentral-01.azurewebsites.net')
+
 
 CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_HTTPONLY = True
@@ -118,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication', # Optional, for testing
+        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 

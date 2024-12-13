@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class AuthService {
-  final String baseUrl = "http://localhost:8000/api";
+  final String baseUrl = "https://kobrabites-backend-czh3g7fye3e5e2eg.canadacentral-01.azurewebsites.net/api";
 
   Future<UserModel> registerUser({
     required String email,
