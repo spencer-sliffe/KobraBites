@@ -90,3 +90,20 @@ jobs:
           app-name: 'kobrabites-backend'
           slot-name: 'Production'
           package: ./kobrabitescore
+
+      - name: Run migrations and collectstatic
+        run: |
+          cd ./kobrabitescore
+          source venv/bin/activate
+          python manage.py migrate
+          python manage.py collectstatic --noinput
+        env:
+          DJANGO_SETTINGS_MODULE: kobrabitescore.settings
+          DJANGO_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DJANGO_DEBUG: ${{ secrets.DEBUG }}
+          DJANGO_ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASS }}
+          DB_SERVER: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_NAME }}
+          DB_PORT: ${{ secrets.DB_PORT }}
