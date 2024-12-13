@@ -19,10 +19,14 @@ jobs:
           flutter-version: '3.10.0'
 
       - name: Get dependencies
-        run: flutter pub get
+        run: |
+          cd ./kobrabites
+          flutter pub get
 
       - name: Build for web
-        run: flutter build web
+        run: |
+          cd ./kobrabites
+          flutter build web
 
       - name: Prepare for deployment
         run: |
