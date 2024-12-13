@@ -1,4 +1,4 @@
-name: Build and deploy python app to Azure Web App - kobrabites-backend
+name: Build and deploy Python app to Azure Web App - kobrabites-backend
 
 on:
   push:
@@ -31,7 +31,6 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Optional: Collect static files
       - name: Collect static files
         run: |
           cd ./kobrabitescore
@@ -64,13 +63,25 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip ./release.zip
 
+      - name: Set up Python version
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Create and start virtual environment
+        run: |
+          cd ./kobrabitescore
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C9DCA6520ACC47FE9925B8064911805F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F0D3D34996B540539BF39BB1759CB5C5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1BC6532CCD27492589A64D394ADFA738 }}
-
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
