@@ -1,0 +1,53 @@
+**/build/
+**/.dart_tool/
+**/.idea/
+**/.vscode/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/ServiceDefinitions.json
+**/ios/Runner.xcworkspace
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/Flutter.podspec
+**/web/manifest.json
+
+# Configuration files
+**/.metadata
+**/.android/
+**/android/.gradle/
+**/android/app/debug.keystore
+
+# macOS-specific files
+.DS_Store
+
+# Linux-specific files
+**/linux/flutter/ephemeral/
+
+# Windows-specific files
+**/windows/flutter/ephemeral/
+
+# IntelliJ IDEA/Android Studio
+.idea/
+*.iml
+
+# JetBrains Rider
+.idea/
+*.sln
+*.csproj
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.lock
+
+# Generated files
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages

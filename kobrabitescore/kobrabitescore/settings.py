@@ -18,9 +18,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:5173').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:5173').split(',')
-CSRF_TRUSTED_ORIGINS.append('http://localhost:5174')
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:57593').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:57593').split(',')
+CORS_ALLOWED_ORIGINS.append('http://localhost:64473')
+CSRF_TRUSTED_ORIGINS.append('http://localhost:64473')
 
 CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_HTTPONLY = True

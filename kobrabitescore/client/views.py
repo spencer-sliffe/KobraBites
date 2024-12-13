@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-
 from drf_spectacular.utils import extend_schema
 
 from client.access import PUTLESS_METHODS
@@ -21,10 +20,9 @@ class ClientViewSet(viewsets.ModelViewSet):
         return qs.prefetch_related('user')
 
     def get_serializer_class(self):
-        if self.action in ['list']:
+        if self.action == 'list':
             if getattr(self, 'swagger_fake_view', False):
                 return super().get_serializer_class()
             else:
-                return getattr(self, 'list_serializer_class', super().get_serializer_class())
+                return self.list_serializer_class
         return super().get_serializer_class()
-
