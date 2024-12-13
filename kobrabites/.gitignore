@@ -13,6 +13,7 @@
 **/macos/Flutter/ephemeral/
 **/macos/Flutter/Flutter.podspec
 **/web/manifest.json
+**/node_modules/
 
 # Configuration files
 **/.metadata
