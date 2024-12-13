@@ -29,7 +29,7 @@ jobs:
           cd ./kobrabitescore
           source venv/bin/activate
           pip install --upgrade pip
-          requirements.txt
+          ./kobrabitescore/requirements.txt
 
       # Optional: Collect static files
       - name: Collect static files
