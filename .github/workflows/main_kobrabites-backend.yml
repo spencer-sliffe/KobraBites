@@ -40,7 +40,8 @@ jobs:
 
       - name: Zip artifact for deployment
         run: |
-          zip release.zip ./kobrastockscore -r -x "./kobrastockscore/venv/*"
+          cd ./kobrabitesscore
+          zip -r ../release.zip . -x "venv/*"
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -62,7 +63,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip ./kobrabitescore/release.zip
+        run: unzip release.zip -d kobrabitesscore
 
       - name: Login to Azure
         uses: azure/login@v2
