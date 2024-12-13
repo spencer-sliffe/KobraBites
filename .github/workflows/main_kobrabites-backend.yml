@@ -1,4 +1,4 @@
-name: Build and deploy python app to Azure Web App - kobrabites-backend
+name: Build and deploy Python app to Azure Web App - kobrabites-backend
 
 on:
   push:
@@ -20,28 +20,24 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          cd ./kobrabitescore
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv ./kobrabitesscore/venv
+          source ./kobrabitesscore/venv/bin/activate
 
       - name: Install dependencies
         run: |
-          cd ./kobrabitescore
-          source venv/bin/activate
+          source ./kobrabitesscore/venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r ./kobrabitesscore/requirements.txt
 
-      # Optional: Collect static files
       - name: Collect static files
         run: |
-          cd ./kobrabitescore
-          source venv/bin/activate
-          python manage.py collectstatic --noinput
+          source ./kobrabitesscore/venv/bin/activate
+          python ./kobrabitesscore/manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
         run: |
           cd ./kobrabitesscore
-          zip -r ../release.zip . -x "venv/*"
+          zip -r ../release.zip . -x "venv/*" 
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -68,16 +64,13 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C9DCA6520ACC47FE9925B8064911805F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F0D3D34996B540539BF39BB1759CB5C5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1BC6532CCD27492589A64D394ADFA738 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kobrabites-backend'
           slot-name: 'Production'
-          package: ./kobrabitescore
-          
+          package: ./kobrabitesscore
