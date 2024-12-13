@@ -12,35 +12,36 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment (for build tasks)
+      # Create a local venv just to collect static (optional step)
+      - name: Create and start virtual environment for build tasks
         run: |
-          cd ./kobrabitescore
+          cd kobrabitescore
           python -m venv venv
           source venv/bin/activate
 
-      - name: Install dependencies locally
+      - name: Install dependencies locally (for collectstatic)
         run: |
-          cd ./kobrabitescore
+          cd kobrabitescore
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Collect static files
         run: |
-          cd ./kobrabitescore
+          cd kobrabitescore
           source venv/bin/activate
           python manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
         run: |
-          # Zip the entire kobrabitescore directory (excluding the local venv)
-          zip release.zip ./kobrabitescore -r -x "./kobrabitescore/venv/*"
+          # Zip up the kobrabitescore folder, excluding the venv
+          zip release.zip kobrabitescore -r -x "kobrabitescore/venv/*"
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -62,7 +63,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip ./release.zip
+        run: unzip release.zip
 
       - name: Login to Azure
         uses: azure/login@v2
