@@ -141,4 +141,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ENABLE_ORYX_BUILD = True
 
-SCM_DO_BUILD_DURING_DEPLOYMENT = False
+SCM_DO_BUILD_DURING_DEPLOYMENT = 1
