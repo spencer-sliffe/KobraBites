@@ -41,22 +41,23 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 5: Collect static files (optional if using Django's staticfiles)
+      # Step 5: Collect static files (if applicable)
       - name: Collect static files
         run: |
-          python ./kobrabitescore/manage.py collectstatic --noinput
+          cd kobrabitescore
+          python manage.py collectstatic --noinput
 
+      # Step 6: Zip artifact for deployment
       - name: Zip artifact for deployment
         run: |
-          zip -r ./release.zip ./kobrabitescore -x ./kobrabitescore/venv
+          zip -r release.zip kobrabitescore -x 'kobrabitescore/venv/*'
 
-      # Step 6: Upload artifact for deployment
+      # Step 7: Upload artifact for deployment
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            ./release.zip
+          path: release.zip
 
   deploy:
     permissions:
@@ -73,13 +74,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-app
-          path: |
-            ./release.zip
 
-      - name: Unzip artifact for deployment
+      # Step 2: Unzip artifact for deployment
+      - name: Unzip artifact
         run: unzip release.zip
 
-      # Step 2: Deploy to Azure Web App
+      # Step 3: Deploy to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
