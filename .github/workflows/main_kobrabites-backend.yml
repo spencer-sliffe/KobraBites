@@ -44,11 +44,11 @@ jobs:
       # Step 5: Collect static files (optional if using Django's staticfiles)
       - name: Collect static files
         run: |
-          cd kobrabitescore
-          python manage.py collectstatic --noinput
+          python ./kobrabitescore/manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./kobrabitescore -x venv/**\*
+        run: |
+          zip -r ./release.zip ./kobrabitescore -x ./kobrabitescore/venv
 
       # Step 6: Upload artifact for deployment
       - name: Upload artifact for deployment
