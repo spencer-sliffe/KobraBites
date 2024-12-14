@@ -18,32 +18,21 @@ jobs:
         with:
           python-version: '3.12'
 
-      # Create a local venv just to collect static (optional step)
-      - name: Create and start virtual environment for build tasks
+      - name: Install dependencies for build tasks
         run: |
-          cd kobrabitescore
-          python -m venv venv
-          source venv/bin/activate
-
-      - name: Install dependencies locally (for collectstatic)
-        run: |
-          cd kobrabitescore
-          source venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r kobrabitescore/requirements.txt
 
       - name: Collect static files
         run: |
           cd kobrabitescore
-          source venv/bin/activate
           python manage.py collectstatic --noinput
 
       - name: Zip artifact for deployment
         run: |
-          # Zip up the kobrabitescore folder, excluding the venv
-          zip release.zip kobrabitescore -r -x "kobrabitescore/venv/*"
+          zip -r release.zip kobrabitescore -x "kobrabitescore/venv/*"
 
-      - name: Upload artifact for deployment jobs
+      - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: python-app
@@ -68,13 +57,13 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C9DCA6520ACC47FE9925B8064911805F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F0D3D34996B540539BF39BB1759CB5C5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1BC6532CCD27492589A64D394ADFA738 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kobrabites-backend'
-          package: './kobrabitescore'
+          package: './release.zip'
