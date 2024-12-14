@@ -69,7 +69,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-app
-          path: .
+          path: ./kobrabitescore
 
       # Step 2: Deploy to Azure Web App
       - name: Deploy to Azure Web App
