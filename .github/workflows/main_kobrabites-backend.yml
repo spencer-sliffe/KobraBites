@@ -12,27 +12,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python version
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
-      - name: Install dependencies for build tasks
+      - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r kobrabitescore/requirements.txt
-
-      - name: Collect static files
-        run: |
-          cd kobrabitescore
-          python manage.py collectstatic --noinput
-
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r ./kobrabitescore/requirements.txt
+          
+      
       - name: Zip artifact for deployment
-        run: |
-          zip -r release.zip kobrabitescore -x "kobrabitescore/venv/*"
+        run: zip -r release.zip ./* -x venv/**\*
 
-      - name: Upload artifact for deployment
+      - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
@@ -54,6 +50,18 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
+      - name: Set up Python version
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r ./kobrabitescore/requirements.txt
+
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -66,4 +74,10 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kobrabites-backend'
-          package: './release.zip'
+          slot-name: 'Production'
+          package: './kobrabitescore'
+
+      - name: Run collectstatic
+        run: |
+          source venv/bin/activate
+          python ./kobrabitescore/manage.py collectstatic --noinput
