@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+settings_module = "kobrabitescore.deployment" if "WEBSITE_ALLOWED_HOSTS" in os.environ else "kobrabitescore.settings"
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kobrabitescore.settings')
 
 application = get_wsgi_application()
