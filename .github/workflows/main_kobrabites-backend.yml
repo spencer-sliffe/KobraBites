@@ -30,29 +30,34 @@ jobs:
       # Step 3: Create and activate virtual environment
       - name: Create and activate virtual environment
         run: |
+          cd kobrabitescore
           python -m venv venv
           source venv/bin/activate
 
       # Step 4: Install dependencies
       - name: Install dependencies
         run: |
+          cd kobrabitescore
           pip install --upgrade pip
-          pip install -r kobrabitescore/requirements.txt
+          pip install -r requirements.txt
 
-      # Step 5: Collect static files (optional if using Django's staticfiles)
+      # Step 5: Collect static files (if applicable)
       - name: Collect static files
         run: |
           cd kobrabitescore
           python manage.py collectstatic --noinput
 
-      # Step 6: Upload artifact for deployment
+      # Step 6: Zip artifact for deployment
+      - name: Zip artifact for deployment
+        run: |
+          zip -r release.zip kobrabitescore -x 'kobrabitescore/venv/*'
+
+      # Step 7: Upload artifact for deployment
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            .
-            !venv/
+          path: release.zip
 
   deploy:
     permissions:
@@ -69,9 +74,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-app
-          path: .
 
-      # Step 2: Deploy to Azure Web App
+      # Step 2: Unzip artifact for deployment
+      - name: Unzip artifact
+        run: unzip release.zip
+
+      # Step 3: Deploy to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
