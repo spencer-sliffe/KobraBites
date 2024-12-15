@@ -42,7 +42,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd kobrabitescore
-          zip release.zip ./* -r
+          zip release.zip ./* -r -x ./venv/*
 
        # Step 5: Collect static files (if applicable)
       - name: Collect static files
@@ -75,7 +75,7 @@ jobs:
 
       # Step 2: Unzip artifact for deployment
       - name: Unzip artifact
-        run: unzip ./kobrabitescore/release.zip
+        run: unzip release.zip
 
       # Step 3: Deploy to Azure Web App
       - name: Deploy to Azure Web App
