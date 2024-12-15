@@ -76,8 +76,7 @@ jobs:
       # Step 2: Unzip artifact for deployment
       - name: Unzip artifact
         run: |
-          mkdir new_release
-          unzip release.zip -d new_release
+          unzip kobrabitescore/release.zip
 
       # Step 3: Deploy to Azure Web App
       - name: Deploy to Azure Web App
@@ -86,4 +85,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './new_release'
+          package: './kobrabitescore'
