@@ -36,28 +36,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-     
-
-      # Step 6: Zip artifact for deployment
-      - name: Zip artifact for deployment
-        run: |
-          cd kobrabitescore
-          zip release.zip ./* -r -x ./venv/*
-
        # Step 5: Collect static files (if applicable)
       - name: Collect static files
         run: |
           cd kobrabitescore
           python manage.py collectstatic --noinput
 
+      # Step 6: Zip artifact for deployment
+      - name: Zip artifact for deployment
+        run: zip -r python-app.zip ./kobrabitescore -x "venv/*" "*.git/*" "*.github/*" "*.DS_Store"
+      
       # Step 7: Upload artifact for deployment
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            kobrabitescore/release.zip
-            !venv/
+          path: python-app.zip
+
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,18 +60,19 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
+  
     steps:
       # Step 1: Download artifact from the build job
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: python-app
-
+  
       # Step 2: Unzip artifact for deployment
       - name: Unzip artifact
-        run: unzip release.zip
-
+        run: |
+          unzip -o python-app.zip -d deployment-folder
+  
       # Step 3: Deploy to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -84,4 +80,5 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: './kobrabitescore'
+          package: './deployment-folder'
+
