@@ -40,8 +40,7 @@ jobs:
       # Step 6: Zip artifact for deployment
       - name: Zip artifact for deployment
         run: |
-          cd kobrabitescore
-          zip -r release.zip . -x "venv/*" "*.git/*" "*.github/*" "*.DS_Store"
+          zip -r release.zip ./kobrabitescore -x "venv/*" "*.git/*" "*.github/*" "*.DS_Store"
 
        # Step 5: Collect static files (if applicable)
       - name: Collect static files
