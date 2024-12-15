@@ -75,8 +75,7 @@ jobs:
 
       # Step 2: Unzip artifact for deployment
       - name: Unzip artifact
-        run: |
-          unzip kobrabitescore/release.zip
+        run: unzip ./kobrabitescore/release.zip
 
       # Step 3: Deploy to Azure Web App
       - name: Deploy to Azure Web App
